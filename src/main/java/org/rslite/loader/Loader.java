@@ -72,6 +72,7 @@ public class Loader {
 		frame.setResizable(config.isResizable());
 		frame.pack();
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		new Thread(new Runnable() {
 			@Override
