@@ -6,6 +6,7 @@ import org.rslite.loader.Loader;
 import org.rslite.loader.LoaderConfigs;
 import org.rslite.util.LatencyChecker;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -56,6 +57,12 @@ public class WorldSelector extends javax.swing.JFrame {
 	 */
 	public WorldSelector() {
 		super("RSLite - World Select");
+
+		try {
+			setIconImage(ImageIO.read(this.getClass().getResource("/icon.png")));
+		} catch (IOException e) {
+			// Simply unable to load, meh.
+		}
 
 		initComponents();
 

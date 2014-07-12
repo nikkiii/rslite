@@ -3,6 +3,7 @@ package org.rslite.loader;
 import org.rslite.jagex.JagexConfiguration;
 import org.rslite.jagex.JagexConfigurationParser;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import java.applet.Applet;
 import java.io.IOException;
@@ -73,6 +74,12 @@ public class Loader {
 		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		try {
+			frame.setIconImage(ImageIO.read(this.getClass().getResource("/icon.png")));
+		} catch (IOException e) {
+			// Ignore, just unable to load.
+		}
 
 		new Thread(new Runnable() {
 			@Override

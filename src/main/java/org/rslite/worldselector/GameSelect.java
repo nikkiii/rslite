@@ -4,6 +4,7 @@ import org.rslite.RSLiteConfig;
 import org.rslite.loader.Loader;
 import org.rslite.loader.LoaderConfigs;
 
+import javax.imageio.ImageIO;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -18,6 +19,11 @@ public class GameSelect extends javax.swing.JFrame {
 	 */
 	public GameSelect() {
 		super("RSLite - Select Game");
+		try {
+			setIconImage(ImageIO.read(this.getClass().getResource("/icon.png")));
+		} catch (IOException e) {
+			// Simply unable to load, meh.
+		}
 		initComponents();
 	}
 
