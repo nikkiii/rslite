@@ -1,4 +1,4 @@
-package org.rslite.jagex;
+package org.rslite.jagex.world;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Loads the Oldschool Runescape World List data
@@ -22,7 +23,7 @@ public class WorldParser {
 	 * @return The world info objecst
 	 * @throws IOException If an error occurred while parsing
 	 */
-	public WorldInfo[] parse() throws IOException {
+	public List<WorldInfo> parse() throws IOException {
 		URLConnection conn = new URL("http://oldschool.runescape.com/slr").openConnection();
 		
 		try (InputStream input = conn.getInputStream()) {
@@ -54,7 +55,7 @@ public class WorldParser {
 
 			int worlds = data.getShort();
 
-			ArrayList<WorldInfo> list = new ArrayList<>(worlds);
+			List<WorldInfo> list = new ArrayList<>(worlds);
 
 			for (int i = 0; i < worlds; i++) {
 				int worldId = data.getShort() & 0xFFFF;
@@ -76,82 +77,11 @@ public class WorldParser {
 			Collections.sort(list, new Comparator<WorldInfo>() {
 				@Override
 				public int compare(WorldInfo o1, WorldInfo o2) {
-					return o1.worldId < o2.worldId ? -1 : 1;
+					return o1.getWorldId() < o2.getWorldId() ? -1 : 1;
 				}
 			});
 
-			return list.toArray(new WorldInfo[list.size()]);
-		}
-	}
-
-	/**
-	 * A class representing a WorldList World
-	 *
-	 * @author Nikki
-	 */
-	public class WorldInfo {
-		private int worldId;
-		private int flags;
-		
-		private boolean members;
-		private boolean pvp;
-		private boolean highRisk;
-		
-		private String host;
-		private String activity;
-		private Location location;
-		private int playerCount;
-		
-		public WorldInfo(int worldId, String host, String activity, int playerCount, Location location, boolean members, boolean pvp, boolean highRisk) {
-			this.worldId = worldId;
-			this.host = host;
-			this.activity = activity;
-			this.playerCount = playerCount;
-			this.location = location;
-			this.members = members;
-			this.pvp = pvp;
-			this.highRisk = highRisk;
-		}
-		
-		public int getWorldId() {
-			return worldId;
-		}
-
-		public int getFlags() {
-			return flags;
-		}
-
-		public boolean isMembers() {
-			return members;
-		}
-
-		public boolean isPvp() {
-			return pvp;
-		}
-
-		public boolean isHighRisk() {
-			return highRisk;
-		}
-
-		public String getHost() {
-			return host;
-		}
-
-		public String getActivity() {
-			return activity;
-		}
-
-		public Location getLocation() {
-			return location;
-		}
-
-		public int getPlayerCount() {
-			return playerCount;
-		}
-
-		@Override
-		public String toString() {
-			return "World [worldId=" + worldId + ", host=" + host + ", activity=" + activity + ", playerCount=" + playerCount + ", location=" + location + ", members=" + members + ", pvp=" + pvp + ", highRisk=" + highRisk + "]";
+			return list;
 		}
 	}
 
@@ -167,9 +97,5 @@ public class WorldParser {
 			bldr.append((char) b);
 		}
 		return bldr.toString();
-	}
-
-	public enum Location {
-		UNITED_STATES, UNITED_KINGDOM, CANADA, AUSTRALIA, NETHERLANDS, SWEDEN, FINLAND, GERMANY
 	}
 }
