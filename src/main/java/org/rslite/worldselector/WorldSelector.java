@@ -275,6 +275,8 @@ public class WorldSelector extends javax.swing.JFrame {
 		play.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				dispose();
+
 				startClient(world);
 			}
 		});
